@@ -180,7 +180,16 @@ var Config = {
 };
 
 // 1776 * 1920 (y - 78)
-var adjY = 72;
+var adjY = 72
+var BuzzVars = {
+  dir: {
+    right: 650,
+    left: 390, 
+    top: 850 + adjY, 
+    bottom: 1000 + adjY,
+  }, 
+  delay: 1000,
+};
 var Button = {
   gameBubblesFrom: { x: 100, y: 560 + adjY },
   gameBubblesTo: { x: 1000, y: 1460 + adjY },
@@ -412,11 +421,13 @@ var Button = {
   skillLuke2: { x: 830, y: 1330 + adjY },
   skillLuke3: { x: 670, y: 1375 + adjY },
   skillLuke4: { x: 960, y: 1160 + adjY },
-  skillBuzz1: { x: 700, y: 1050 + adjY },
-  skillBuzz2: { x: 350, y: 1050 + adjY },
-  skillBuzz3: { x: 750, y: 800 + adjY },
-  skillBuzz4: { x: 350, y: 800 + adjY },
-  skillBuzz5: { x: 500, y: 460 + adjY },
+  skillBuzz: [
+    { x: BuzzVars.dir.right, y: BuzzVars.dir.bottom },
+    { x: BuzzVars.dir.left, y: BuzzVars.dir.bottom },
+    { x: BuzzVars.dir.right, y: BuzzVars.dir.top },
+    { x: BuzzVars.dir.left, y: BuzzVars.dir.top },
+    { x: 530, y: 470 + adjY },
+  ], 
   outReceiveNameFrom: { x: 160, y: 460 + adjY },
   outReceiveNameTo: { x: 620, y: 555 + adjY },
   moneyInfoBox: { x: 430, y: 116 + adjY, w: 230, h: 56 },
@@ -2437,7 +2448,7 @@ Tsum.prototype.useSkill = function (board) {
     );
   } else if (this.skillType == 'block_cinderella_s') {
     this.sleep(1500);
-    this.useCinderellaSkill(board);
+    this.useCinderella(board);
     this.sleep(500);
     board = this.scanBoardQuick();
     this.useCinderellaSkill(board);
@@ -2460,23 +2471,20 @@ Tsum.prototype.useSkill = function (board) {
     log('hit');
     this.tap({ x: 980, y: 960 }, 20);
   } else if (this.skillType == 'cbuzz') {
+    var shots = 4;
+    if (this.skillLevel == 6) {
+      shots = 5
+    }
     log('AIM');
-    this.sleep(2500);
-    log('Fire 1');
-    this.tap(Button.skillBuzz1, 30);
-    this.sleep(900);
-    log('Fire 2');
-    this.tap(Button.skillBuzz2, 30);
-    this.sleep(900);
-    log('Fire 3');
-    this.tap(Button.skillBuzz3, 30);
-    this.sleep(900);
-    log('Fire 4');
-    this.tap(Button.skillBuzz4, 30);
-    this.sleep(1000);
-    log('Fire 5');
-    this.tap(Button.skillBuzz5, 30);
-    this.clearAllBubbles(250, 50);
+    this.sleep(2200);
+    for (var i = 0; i < shots; i++) {
+      log('Fire ' + i);
+      this.tap(Button.skillBuzz[i], 30);
+      if (i < shots - 1) {
+        this.sleep(BuzzVars.delay)
+      } 
+    } 
+    this.clearAllBubbles(350, 50);
   } else {
     this.sleep(this.skillInterval);
   }

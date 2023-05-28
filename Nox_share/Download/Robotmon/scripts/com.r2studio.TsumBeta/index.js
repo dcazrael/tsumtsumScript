@@ -180,14 +180,14 @@ var Config = {
 };
 
 // 1776 * 1920 (y - 78)
-var adjY = 72
+var adjY = 72;
 var BuzzVars = {
   dir: {
     right: 650,
-    left: 390, 
-    top: 850 + adjY, 
+    left: 390,
+    top: 850 + adjY,
     bottom: 1000 + adjY,
-  }, 
+  },
   delay: 1000,
 };
 var Button = {
@@ -427,7 +427,7 @@ var Button = {
     { x: BuzzVars.dir.right, y: BuzzVars.dir.top },
     { x: BuzzVars.dir.left, y: BuzzVars.dir.top },
     { x: 530, y: 470 + adjY },
-  ], 
+  ],
   outReceiveNameFrom: { x: 160, y: 460 + adjY },
   outReceiveNameTo: { x: 620, y: 555 + adjY },
   moneyInfoBox: { x: 430, y: 116 + adjY, w: 230, h: 56 },
@@ -642,7 +642,7 @@ var Page = {
         b: 94,
         match: true,
         threshold: 80,
-      }, // center of the Tsum Maleficentd
+      }, // center of the Tsum Maleficent
       {
         x: 187,
         y: 1527 + adjY,
@@ -1291,7 +1291,7 @@ var Page = {
     next: { x: 885, y: 1012 + adjY },
   },
   FriendInfo: {
-    // FriendInfo of Friend Page, SocailAccount of Setting Page
+    // FriendInfo of Friend Page, SocialAccount of Setting Page
     name: 'FriendInfo',
     colors: [
       {
@@ -1453,7 +1453,7 @@ var Logs = {
   gaming: 'Gaming (Slow version)',
   fastGaming: 'Gaming (Fast version)',
   gameOver: 'Game Over',
-  detectScreen: 'Detecting screen (top and bosttom)',
+  detectScreen: 'Detecting screen (top and bottom)',
   calculateScreenSize: 'Calculating screen size',
   offset: 'Offset (X, Y, H, W)',
   startTsumTsumApp: 'Start TsumTsum app',
@@ -2378,12 +2378,6 @@ Tsum.prototype.useSkill = function (board) {
     }
   }
   log(this.logs.useSkill);
-  if (this.skillType == 'block_lukej_s') {
-    this.tap(Button.skillLuke1, 30);
-    this.tap(Button.skillLuke2, 30);
-    this.tap(Button.skillLuke3, 30);
-    this.tap(Button.skillLuke4, 30);
-  }
   this.tap(Button.gameSkillOn);
   this.sleep(30);
   if (this.skillType == 'block_lukej_s') {
@@ -2404,12 +2398,7 @@ Tsum.prototype.useSkill = function (board) {
       this.tapUp({ x: 850, y: 420 }, 20);
       this.sleep(20);
     }
-    this.sleep(400);
-    this.tap(Button.skillLuke1, 30);
-    this.tap(Button.skillLuke2, 30);
-    this.tap(Button.skillLuke3, 30);
-    this.tap(Button.skillLuke4, 30);
-    this.sleep(400);
+    this.clearAllBubbles(400, 50);
   } else if (
     this.skillType == 'block_donald_s' ||
     this.skillType == 'block_donaldx_s'
@@ -2473,7 +2462,7 @@ Tsum.prototype.useSkill = function (board) {
   } else if (this.skillType == 'cbuzz') {
     var shots = 4;
     if (this.skillLevel == 6) {
-      shots = 5
+      shots = 5;
     }
     log('AIM');
     this.sleep(2200);
@@ -2481,10 +2470,19 @@ Tsum.prototype.useSkill = function (board) {
       log('Fire ' + i);
       this.tap(Button.skillBuzz[i], 30);
       if (i < shots - 1) {
-        this.sleep(BuzzVars.delay)
-      } 
-    } 
+        this.sleep(BuzzVars.delay);
+      }
+    }
     this.clearAllBubbles(350, 50);
+  } else if (this.skillType == 'anakin') {
+    this.sleep(1200);
+    this.moveTo({ x: 700, y: 1400 }, 30);
+    this.tapDown({ x: 700, y: 1400 }, 30);
+    this.sleep(300);
+    this.moveTo({ x: 700, y: 600 }, 30);
+
+    this.sleep(200);
+    this.tapUp({ x: 700, y: 600 }, 20);
   } else {
     this.sleep(this.skillInterval);
   }
